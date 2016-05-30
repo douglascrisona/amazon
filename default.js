@@ -11,3 +11,25 @@ var products = [
 
 // Matches the search term with an object property string name
 // If equal, append restuls to the page
+
+function searchMatch(searchTerm) {
+  for(var i = 0; i < products.length; i++) {
+    if(searchTerm === products[i].name) {
+      return products[i];
+    }
+  }
+};
+
+var searchButton = document.getElementById('clickSearch');
+searchButton.addEventListener('click', function() {
+  var term = document.getElementById('term');
+  var matched = searchMatch(term.value);
+  var product = document.createElement('h1')
+  if(matched) {
+    product.textContent = matched.name + " " + matched.price
+    // console.log(matched.name + " " + matched.price);
+  } else {
+    product.textContent = "Sorry, we could locate the item: " + term.value
+  }
+    document.body.appendChild(product);
+});
