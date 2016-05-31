@@ -10,7 +10,6 @@ var products = [
 
 // Matches the search term with an object property string name
 // If equal, append results to the page
-
 function searchMatch(searchTerm) {
   for(var i = 0; i < products.length; i++) {
     if(searchTerm === products[i].name) {
@@ -32,27 +31,19 @@ function partialMatch(term) {
     return false;
   }
 }
-
-// Add 'Add to Cart' button on product
-function addButton() {
-  var button = document.createElement('button')
-  button.className = "btn"
-  document.body.appendChild(button);
-  var text = document.createTextNode("Add to Cart");
-  button.appendChild(text);
-}
-
 // Create Cart
  function addToCart() {
   var myCart = [];
-  var theButton = document.getElementsByClassName('btn')[0];
+  var theButton = document.getElementsByTagName('button')[0];
   theButton.addEventListener('click', function(){
-    console.log('test');
-    // myCart.push(matched.price);
+    // console.log(searchMatch(term.value));
+    myCart.push(searchMatch(term.value));
+    console.log("Your subtotal is" + " " + myCart[0].price);
   });
 }
 addToCart();
 
+// Search Functionality
 var searchButton = document.getElementById('clickSearch');
 searchButton.addEventListener('click', function() {
   var term = document.getElementById('term');
@@ -69,7 +60,10 @@ searchButton.addEventListener('click', function() {
     img.src = "images/BabolatImage.jpeg"
     productDisplay.appendChild(img);
 
-    addButton();
+    var theButton = document.createElement('button');
+    theButton.textContent = "Add To Cart"
+    theButton.setAttribute('class', 'btn btn-success');
+    productDisplay.appendChild(theButton);
   }
   /** if(!matched) {
     console.log(partialMatch(term.value));
@@ -80,7 +74,6 @@ searchButton.addEventListener('click', function() {
   }
     position.appendChild(productDisplay);
 });
-
 
 /** Search TODO:
 Add partial matches functionality
