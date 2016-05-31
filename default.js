@@ -8,7 +8,6 @@ var products = [
   { name: 'Head Tour Team Tennis Bag', price: 39.95},
 ]
 
-
 // Matches the search term with an object property string name
 // If equal, append results to the page
 
@@ -19,7 +18,6 @@ function searchMatch(searchTerm) {
     }
   }
 };
-
 
 function partialMatch(term) {
   var suggestions = [];
@@ -35,8 +33,25 @@ function partialMatch(term) {
   }
 }
 
+// Add 'Add to Cart' button on product
+function addButton() {
+  var button = document.createElement('button')
+  button.className = "btn"
+  document.body.appendChild(button);
+  var text = document.createTextNode("Add to Cart");
+  button.appendChild(text);
+}
 
-
+// Create Cart
+ function addToCart() {
+  var myCart = [];
+  var theButton = document.getElementsByClassName('btn')[0];
+  theButton.addEventListener('click', function(){
+    console.log('test');
+    // myCart.push(matched.price);
+  });
+}
+addToCart();
 
 var searchButton = document.getElementById('clickSearch');
 searchButton.addEventListener('click', function() {
@@ -48,27 +63,31 @@ searchButton.addEventListener('click', function() {
     productDisplay.className = 'col-xs-3 col-offset-md-2 text-center'
 
     var position = document.getElementById('products');
-    productDisplay.textContent = matched.name + " $" + matched.price
+    productDisplay.textContent = matched.name + " $" + matched.price;
 
     var img = document.createElement('img');
     img.src = "images/BabolatImage.jpeg"
     productDisplay.appendChild(img);
+
+    addButton();
   }
-  if(!matched) {
+  /** if(!matched) {
     console.log(partialMatch(term.value));
   }
-
+  **/
   else {
-    productDisplay.textContent = "Sorry, we could locate the item: " + term.value
+    productDisplay.textContent = "Sorry, we could not locate the item: " + term.value;
   }
-  //  position.appendChild(productDisplay);
+    position.appendChild(productDisplay);
 });
 
 
-
-
-
-/** TODO:
+/** Search TODO:
 Add partial matches functionality
 Clear page when button is clicked again
+**/
+
+/** Add to Cart TODO:
+Add 'Add to Cart' button to product thumbnails
+Create 'Add to Car' function that pushes product name & price to mycart array
 **/
