@@ -1,7 +1,7 @@
 // Tennis Products
 var products = [
   { name: 'Babolat Aeropro' , price: 120.95},
-  { name: 'Wilson Pro Statt 97', price: 199.00},
+  { name: 'Wilson Pro Staff', price: 199.00},
   { name: 'Penn Tennis Ball Champ 3pk', price: 2.04},
   { name: 'NikeCourt Premier RF Emoji Head', price: 35.00},
   { name: 'Nike Vapor Court', price: 49.95},
@@ -10,7 +10,7 @@ var products = [
 
 
 // Matches the search term with an object property string name
-// If equal, append restuls to the page
+// If equal, append results to the page
 
 function searchMatch(searchTerm) {
   for(var i = 0; i < products.length; i++) {
@@ -20,16 +20,55 @@ function searchMatch(searchTerm) {
   }
 };
 
+
+function partialMatch(term) {
+  var suggestions = [];
+  products.forEach(function(product){
+    if(product.name.indexOf(term) !== -1) {
+      suggestions.push(product);
+    }
+  });
+  if(suggestions) {
+    return suggestions;
+  } else {
+    return false;
+  }
+}
+
+
+
+
 var searchButton = document.getElementById('clickSearch');
 searchButton.addEventListener('click', function() {
   var term = document.getElementById('term');
   var matched = searchMatch(term.value);
-  var product = document.createElement('h1')
+
   if(matched) {
-    product.textContent = matched.name + " " + matched.price
-    // console.log(matched.name + " " + matched.price);
-  } else {
-    product.textContent = "Sorry, we could locate the item: " + term.value
+    var productDisplay = document.createElement('div');
+    productDisplay.className = 'col-xs-3 col-offset-md-2 text-center'
+
+    var position = document.getElementById('products');
+    productDisplay.textContent = matched.name + " $" + matched.price
+
+    var img = document.createElement('img');
+    img.src = "images/BabolatImage.jpeg"
+    productDisplay.appendChild(img);
   }
-    document.body.appendChild(product);
+  if(!matched) {
+    console.log(partialMatch(term.value));
+  }
+
+  else {
+    productDisplay.textContent = "Sorry, we could locate the item: " + term.value
+  }
+  //  position.appendChild(productDisplay);
 });
+
+
+
+
+
+/** TODO:
+Add partial matches functionality
+Clear page when button is clicked again
+**/
