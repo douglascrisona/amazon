@@ -1,6 +1,6 @@
 // Tennis Products
 var products = [
-  { name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals"},
+  { name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals", image: 'images/ProductIcon.png'},
   { name: 'Wilson Pro Staff', price: 199.00},
   { name: 'Penn Tennis Ball Champ 3pk', price: 2.04},
   { name: 'NikeCourt Premier RF Emoji Head', price: 35.00},
@@ -31,7 +31,7 @@ function partialMatch(term) {
     return false;
   }
 }
-// Creates a cart 
+// Creates a cart
 /**
  function addToCart() {
   var myCart = [];
@@ -87,8 +87,8 @@ function clear(area) {
 
 var productClear = document.getElementById('products');
 productClear.addEventListener('click', function(theEvent){
-  var theButton = theEvent.target.getAttribute('viewer');
-  console.log(theEvent.target);
+  //var theButton = theEvent.target.getAttribute('viewer');
+  //console.log(theEvent.target);
   clear(document.getElementById('products'));
 });
 
@@ -109,22 +109,31 @@ function productPage() {
   titleInfo.textContent = theProducts[0].name;
 
   var priceInfo = document.createElement('div');
-  priceInfo.setAttribute('class', 'panel-body');
+  priceInfo.setAttribute('class', 'h4');
   priceInfo.textContent = theProducts[0].price
 
   var productImg = document.createElement('img');
-  productImg.src = "images/BabolatLarge.png";
+  //productImg.src = "images/BabolatLarge.png";
+  productImg.setAttribute('src', theProducts[0].image);
 
   var theButton = document.createElement('div');
   theButton.setAttribute('class', 'btn btn-success');
   theButton.textContent = "Add to Cart"
 
-  document.body.appendChild(theDisplay);
+  var description = document.createElement('p');
+  description.setAttribute('class', 'panel-body');
+  description.textContent = theProducts[0].description;
+
+  // document.body.appendChild(theDisplay);
   theDisplay.appendChild(titleInfo);
   theDisplay.appendChild(productImg);
   theDisplay.appendChild(priceInfo);
+  theDisplay.appendChild(description);
   theDisplay.appendChild(theButton);
   //theDisplay.appendChild(priceInfo);
+  var container = document.getElementById('products');
+  container.appendChild(theDisplay);
+
 }
 
 
