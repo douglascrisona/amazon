@@ -1,6 +1,6 @@
 // Tennis Products
 var products = [
-  { name: 'Babolat Aeropro' , price: 120.95},
+  { name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals"},
   { name: 'Wilson Pro Staff', price: 199.00},
   { name: 'Penn Tennis Ball Champ 3pk', price: 2.04},
   { name: 'NikeCourt Premier RF Emoji Head', price: 35.00},
@@ -31,7 +31,8 @@ function partialMatch(term) {
     return false;
   }
 }
-// Create Cart
+// Creates a cart 
+/**
  function addToCart() {
   var myCart = [];
   var theButton = document.getElementsByTagName('button')[0];
@@ -42,6 +43,7 @@ function partialMatch(term) {
   });
 }
 addToCart();
+**/
 
 // Search Functionality
 var searchButton = document.getElementById('clickSearch');
@@ -61,19 +63,70 @@ searchButton.addEventListener('click', function() {
     productDisplay.appendChild(img);
 
     var theButton = document.createElement('button');
-    theButton.textContent = "Add To Cart"
+    theButton.textContent = "View Product"
     theButton.setAttribute('class', 'btn btn-success');
+    theButton.setAttribute('id', 'viewer');
     productDisplay.appendChild(theButton);
   }
   /** if(!matched) {
     console.log(partialMatch(term.value));
   }
   **/
-  else {
-    productDisplay.textContent = "Sorry, we could not locate the item: " + term.value;
-  }
-    position.appendChild(productDisplay);
+  // else {
+  // productDisplay.textContent = "Sorry, we could not locate the item: " + term.value;
+  //}
+  position.appendChild(productDisplay);
 });
+
+// Clears page when 'View Product' is clicked
+function clear(area) {
+  while(area.firstChild) {
+    area.removeChild(area.firstChild);
+  }
+}
+
+var productClear = document.getElementById('products');
+productClear.addEventListener('click', function(theEvent){
+  var theButton = theEvent.target.getAttribute('viewer');
+  console.log(theEvent.target);
+  clear(document.getElementById('products'));
+});
+
+// Adds product page for individual product selected from search results
+var theProducts = [];
+var productInfo = document.getElementById('products');
+productInfo.addEventListener('click', function(){
+  theProducts.push(searchMatch(term.value));
+  productPage();
+});
+
+function productPage() {
+  var theDisplay = document.createElement('div');
+  theDisplay.setAttribute('class', 'panel-body')
+
+  var titleInfo = document.createElement('div');
+  titleInfo.setAttribute('class', 'h3');
+  titleInfo.textContent = theProducts[0].name;
+
+  var priceInfo = document.createElement('div');
+  priceInfo.setAttribute('class', 'panel-body');
+  priceInfo.textContent = theProducts[0].price
+
+  var productImg = document.createElement('img');
+  productImg.src = "images/BabolatLarge.png";
+
+  var theButton = document.createElement('div');
+  theButton.setAttribute('class', 'btn btn-success');
+  theButton.textContent = "Add to Cart"
+
+  document.body.appendChild(theDisplay);
+  theDisplay.appendChild(titleInfo);
+  theDisplay.appendChild(productImg);
+  theDisplay.appendChild(priceInfo);
+  theDisplay.appendChild(theButton);
+  //theDisplay.appendChild(priceInfo);
+}
+
 
 /** Search TODO:
 Add partial matches functionality
@@ -81,6 +134,8 @@ Clear page when button is clicked again
 **/
 
 /** Add to Cart TODO:
-Add 'Add to Cart' button to product thumbnails
-Create 'Add to Car' function that pushes product name & price to mycart array
+Add 'View Product' button to product thumbnails
+Clear content from page when button is clicked
+Load product page
+Create 'Add to Cart' function that pushes product name & price to mycart array
 **/
