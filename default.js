@@ -1,11 +1,11 @@
 // Tennis Products
 var products = [
-  { name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals", image: 'images/ProductIcon.png'},
-  { name: 'Wilson Pro Staff', price: 199.00},
-  { name: 'Penn Tennis Ball Champ 3pk', price: 2.04},
-  { name: 'NikeCourt Premier RF Emoji Head', price: 35.00},
-  { name: 'Nike Vapor Court', price: 49.95},
-  { name: 'Head Tour Team Tennis Bag', price: 39.95},
+  { name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals.", image: 'images/Thumb_Item_1.png', largeImage: 'images/Large_Item_1.png' },
+  { name: 'Wilson Pro Staff', price: 199.00, description: "Thie is Roger Federer's racket of choice, you can't go wrong with that!", image: 'images/Thumb_Item_2.png', largeImage: 'images/Large_Item_2.png' },
+  { name: 'Penn Tennis Ball Champ 3pk', price: 2.04, description: "A 3 pack of tennis balls.", image: 'images/Thumb_Item_3.png', largeImage: 'images/Large_Item_3.png' },
+  { name: 'NikeCourt Premier RF Emoji Head', price: 35.00, description: "Emoji shirt worn by Roger Federer.", image: 'images/Thumb_Item_4.png', largeImage: 'images/Large_Item_4.png' },
+  { name: 'Nike Vapor Court', price: 49.95, description: "Tennis sneakers for all-court play.", image: 'images/Thumb_Item_1.jpeg', largeImage: 'images/Large_Item_1.png' },
+  { name: 'Head Tour Team Tennis Bag', price: 39.95, description: "Hold your new rackets in this extra large tennis bag.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
 ]
 
 // Matches the search term with an object property string name
@@ -31,19 +31,6 @@ function partialMatch(term) {
     return false;
   }
 }
-// Creates a cart
-/**
- function addToCart() {
-  var myCart = [];
-  var theButton = document.getElementsByTagName('button')[0];
-  theButton.addEventListener('click', function(){
-    // console.log(searchMatch(term.value));
-    myCart.push(searchMatch(term.value));
-    console.log("Your subtotal is" + " " + myCart[0].price);
-  });
-}
-addToCart();
-**/
 
 // Search Functionality
 var searchButton = document.getElementById('clickSearch');
@@ -59,7 +46,7 @@ searchButton.addEventListener('click', function() {
     productDisplay.textContent = matched.name + " $" + matched.price;
 
     var img = document.createElement('img');
-    img.src = "images/BabolatImage.jpeg"
+    img.setAttribute('src', matched.image)
     productDisplay.appendChild(img);
 
     var theButton = document.createElement('button');
@@ -100,6 +87,9 @@ productInfo.addEventListener('click', function(){
   productPage();
 });
 
+
+var myCart = [];
+// Create Individual Product Page 
 function productPage() {
   var theDisplay = document.createElement('div');
   theDisplay.setAttribute('class', 'panel-body')
@@ -110,14 +100,16 @@ function productPage() {
 
   var priceInfo = document.createElement('div');
   priceInfo.setAttribute('class', 'h4');
-  priceInfo.textContent = theProducts[0].price
+  priceInfo.setAttribute('id', 'price')
+  priceInfo.textContent = "$" + theProducts[0].price
 
   var productImg = document.createElement('img');
   //productImg.src = "images/BabolatLarge.png";
-  productImg.setAttribute('src', theProducts[0].image);
+  productImg.setAttribute('src', theProducts[0].largeImage);
 
   var theButton = document.createElement('div');
   theButton.setAttribute('class', 'btn btn-success');
+  theButton.setAttribute('id', 'thelistener')
   theButton.textContent = "Add to Cart"
 
   var description = document.createElement('p');
@@ -134,7 +126,44 @@ function productPage() {
   var container = document.getElementById('products');
   container.appendChild(theDisplay);
 
+  // Add to cart function
+  function addToCart() {
+    //var myCart = [];
+    theButton.addEventListener('click', function(){
+      //console.log(theProducts[0].name + " $" + theProducts[0].price);
+      myCart.push(theProducts[0].name + " $" +  theProducts[0].price);
+      console.log(myCart[0]);
+      createCart();
+    })
+  }
+  addToCart();
 }
+
+var newContainer = document.getElementById('nav');
+var cartIcon = document.createElement('img');
+
+function createCart(){
+  cartIcon.setAttribute('src', 'images/MyCart.png');
+  cartIcon.setAttribute('id', 'littlecart');
+  newContainer.appendChild(cartIcon);
+}
+
+cartIcon.addEventListener('click', function(){
+  clear(document.getElementById('products'));
+  myCartPage();
+})
+
+// View My Cart Page, Not Done
+function myCartPage(){
+var theCart = document.createElement('div');
+var theHeader = document.createElement('h2');
+theHeader.textContent = "My Cart";
+theCart.textContent = myCart[0];
+productInfo.appendChild(theHeader);
+productInfo.appendChild(theCart);
+}
+
+
 
 
 /** Search TODO:
@@ -143,8 +172,16 @@ Clear page when button is clicked again
 **/
 
 /** Add to Cart TODO:
-Add 'View Product' button to product thumbnails
-Clear content from page when button is clicked
-Load product page
-Create 'Add to Cart' function that pushes product name & price to mycart array
+Add 'View Product' button to product thumbnails. DONE
+Clear content from page when button is clicked. DONE
+Load product page. DONE.
+Create 'Add to Cart' function that pushes product name & price to mycart array. DONE
+**/
+
+/** Checkout TODO:
+Display Product Image, Price & Info
+Show subtotal
+Display 'Checkout' button
+Allow user to fill out form and complete purhcase
+Show message 'Thank you for your order'
 **/
