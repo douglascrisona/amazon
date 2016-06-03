@@ -7,22 +7,22 @@ var products = [
   { name: 'Nike Vapor Court', price: 49.95, description: "Tennis sneakers for all-court play.", image: 'images/Thumb_Item_1.jpeg', largeImage: 'images/Large_Item_1.png' },
   { name: 'Head Tour Team Tennis Bag', price: 39.95, description: "Hold your new rackets in this extra large tennis bag.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
 ]
-
 // Matches the search term with an object property string name
 // If equal, append results to the page
 function searchMatch(searchTerm) {
   for(var i = 0; i < products.length; i++) {
-    if(searchTerm === products[i].name) {
+    if(searchTerm.toLowerCase() === products[i].name.toLowerCase()) {
       return products[i];
     }
   }
 };
-
+// Matches the searh term with object properties containing partial strings and returns those properties
 function partialMatch(term) {
   var suggestions = [];
   products.forEach(function(product){
     if(product.name.indexOf(term) !== -1) {
       suggestions.push(product);
+      console.log(suggestions[0].name)
     }
   });
   if(suggestions) {
@@ -31,8 +31,7 @@ function partialMatch(term) {
     return false;
   }
 }
-
-// Search Functionality
+// Search Functionality & Displaying Products
 var searchButton = document.getElementById('clickSearch');
 searchButton.addEventListener('click', function() {
   var term = document.getElementById('term');
@@ -42,43 +41,38 @@ searchButton.addEventListener('click', function() {
     var productDisplay = document.createElement('div');
     productDisplay.className = 'col-xs-3 col-offset-md-2 text-center'
 
-    var position = document.getElementById('products');
+    //var position = document.getElementById('products');
     productDisplay.textContent = matched.name + " $" + matched.price;
 
     var img = document.createElement('img');
     img.setAttribute('src', matched.image)
     productDisplay.appendChild(img);
 
-    var theButton = document.createElement('button');
-    theButton.textContent = "View Product"
-    theButton.setAttribute('class', 'btn btn-success');
-    theButton.setAttribute('id', 'viewer');
-    productDisplay.appendChild(theButton);
-  }
-  /** if(!matched) {
-    console.log(partialMatch(term.value));
-  }
-  **/
-  // else {
-  // productDisplay.textContent = "Sorry, we could not locate the item: " + term.value;
-  //}
-  position.appendChild(productDisplay);
-});
+    var firstButton = document.createElement('button');
+    firstButton.setAttribute('class', 'btn btn-success');
+    firstButton.setAttribute('id', 'firstbutton');
+    firstButton.textContent = "View Product"
+    productDisplay.appendChild(firstButton);
 
-// Clears page when 'View Product' is clicked
+    firstButton.addEventListener('click', function(e){
+      button = e.target;
+      if(button.id = "firstbutton") {
+      clear(showProduct);
+      }
+    });
+    var showProduct = document.getElementById('show');
+    showProduct.appendChild(productDisplay);
+    }
+    if(!matched) {
+    console.log(partialMatch(term.value));
+    }
+});
+// Clears page when area is clicked
 function clear(area) {
   while(area.firstChild) {
     area.removeChild(area.firstChild);
   }
 }
-
-var productClear = document.getElementById('products');
-productClear.addEventListener('click', function(theEvent){
-  //var theButton = theEvent.target.getAttribute('viewer');
-  //console.log(theEvent.target);
-  clear(document.getElementById('products'));
-});
-
 // Adds product page for individual product selected from search results
 var theProducts = [];
 var productInfo = document.getElementById('products');
@@ -87,9 +81,8 @@ productInfo.addEventListener('click', function(){
   productPage();
 });
 
-
 var myCart = [];
-// Create Individual Product Page 
+// Create Individual Product Page
 function productPage() {
   var theDisplay = document.createElement('div');
   theDisplay.setAttribute('class', 'panel-body')
@@ -109,7 +102,7 @@ function productPage() {
 
   var theButton = document.createElement('div');
   theButton.setAttribute('class', 'btn btn-success');
-  theButton.setAttribute('id', 'thelistener')
+  theButton.setAttribute('id', 'secondbutton')
   theButton.textContent = "Add to Cart"
 
   var description = document.createElement('p');
@@ -123,25 +116,28 @@ function productPage() {
   theDisplay.appendChild(description);
   theDisplay.appendChild(theButton);
   //theDisplay.appendChild(priceInfo);
-  var container = document.getElementById('products');
-  container.appendChild(theDisplay);
+  var showSingleProduct = document.getElementById('show');
+  showSingleProduct.appendChild(theDisplay);
 
   // Add to cart function
   function addToCart() {
     //var myCart = [];
-    theButton.addEventListener('click', function(){
+    theButton.addEventListener('click', function(e){
       //console.log(theProducts[0].name + " $" + theProducts[0].price);
+      button = e.target;
+      if(button.id == "secondbutton"){
       myCart.push(theProducts[0].name + " $" +  theProducts[0].price);
       console.log(myCart[0]);
       createCart();
+      clear(showSingleProduct);
+      }
     })
   }
   addToCart();
 }
-
+// Creates Clickable Cart Icon to view cart
 var newContainer = document.getElementById('nav');
 var cartIcon = document.createElement('img');
-
 function createCart(){
   cartIcon.setAttribute('src', 'images/MyCart.png');
   cartIcon.setAttribute('id', 'littlecart');
@@ -155,17 +151,41 @@ cartIcon.addEventListener('click', function(){
 
 // View My Cart Page, Not Done
 function myCartPage(){
-var theCart = document.createElement('div');
-var theHeader = document.createElement('h2');
-theHeader.textContent = "My Cart";
-theCart.textContent = myCart[0];
-productInfo.appendChild(theHeader);
-productInfo.appendChild(theCart);
+  var imageContainer = document.createElement('div');
+  imageContainer.setAttribute('class', 'container row col-md-6 panel panel-default');
+  imageContainer.setAttribute('id', 'finalimage')
+  productInfo.appendChild(imageContainer);
+
+  var productHeader = document.createElement('div');
+  productHeader.setAttribute('class', 'panel-heading');
+  productHeader.textContent = "Product Name";
+
+  var theButton = document.createElement('button');
+  theButton.setAttribute('class', 'panel-body btn btn-success');
+  theButton.setAttribute('id', 'checkout');
+  theButton.textContent = "Checkout Now";
+
+  var productText = document.createElement('div');
+  productText.setAttribute('class', 'h3 panel-body')
+  productText.textContent = myCart[0];
+
+  var productPrice = document.createElement('div');
+  productPrice.setAttribute('class', 'panel-footer');
+  productPrice.textContent = "Product Price";
+
+  imageContainer.appendChild(productHeader);
+  imageContainer.appendChild(productText);
+  imageContainer.appendChild(theButton);
+  imageContainer.appendChild(productPrice);
+
+  theButton.addEventListener('click', function(e){
+    button = e.target;
+    if(button.id == "checkout") {
+    //  checkItOut();
+      theButton.disabled = true;
+    }
+  })
 }
-
-
-
-
 /** Search TODO:
 Add partial matches functionality
 Clear page when button is clicked again
@@ -179,7 +199,7 @@ Create 'Add to Cart' function that pushes product name & price to mycart array. 
 **/
 
 /** Checkout TODO:
-Display Product Image, Price & Info
+Display Product Name, Price & Info
 Show subtotal
 Display 'Checkout' button
 Allow user to fill out form and complete purhcase
