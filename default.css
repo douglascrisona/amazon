@@ -5,8 +5,32 @@
 
 #search {
   margin-top: 40px;
+  /** margin-left: 150px; **/
 }
 
 #logo {
   margin-right: 10px;
+}
+
+.btn {
+  margin-left: 20px;
+}
+
+#price {
+  margin-left: 20px;
+}
+
+#littlecart {
+  margin-top: 30px;
+  margin-right: 20px;
+  float: right;
+}
+
+
+#thebox {
+  margin-left: 20px;
+}
+
+#checkout {
+  margin-bottom: 20px;
 }
