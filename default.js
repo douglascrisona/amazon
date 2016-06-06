@@ -4,7 +4,7 @@ var products = [
   { name: 'Wilson Pro Staff', price: 199.00, description: "Thie is Roger Federer's racket of choice, you can't go wrong with that!", image: 'images/Thumb_Item_2.png', largeImage: 'images/Large_Item_2.png' },
   { name: 'Penn Tennis Ball Champ 3pk', price: 2.04, description: "A 3 pack of tennis balls.", image: 'images/Thumb_Item_3.png', largeImage: 'images/Large_Item_3.png' },
   { name: 'NikeCourt Premier RF Emoji Head', price: 35.00, description: "Emoji shirt worn by Roger Federer.", image: 'images/Thumb_Item_4.png', largeImage: 'images/Large_Item_4.png' },
-  { name: 'Nike Vapor Court', price: 49.95, description: "Tennis sneakers for all-court play.", image: 'images/Thumb_Item_1.jpeg', largeImage: 'images/Large_Item_1.png' },
+  { name: 'Nike Vapor Court', price: 49.95, description: "Tennis sneakers for all-court play.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
   { name: 'Head Tour Team Tennis Bag', price: 39.95, description: "Hold your new rackets in this extra large tennis bag.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
 ]
 // Matches the search term with an object property string name
@@ -16,21 +16,8 @@ function searchMatch(searchTerm) {
     }
   }
 };
-// Matches the searh term with object properties containing partial strings and returns those properties
-function partialMatch(term) {
-  var suggestions = [];
-  products.forEach(function(product){
-    if(product.name.indexOf(term) !== -1) {
-      suggestions.push(product);
-      console.log(suggestions[0].name)
-    }
-  });
-  if(suggestions) {
-    return suggestions;
-  } else {
-    return false;
-  }
-}
+
+
 // Search Functionality & Displaying Products
 var searchButton = document.getElementById('clickSearch');
 searchButton.addEventListener('click', function() {
@@ -67,6 +54,7 @@ searchButton.addEventListener('click', function() {
     console.log(partialMatch(term.value));
     }
 });
+
 // Clears page when area is clicked
 function clear(area) {
   while(area.firstChild) {
@@ -126,7 +114,8 @@ function productPage() {
       //console.log(theProducts[0].name + " $" + theProducts[0].price);
       button = e.target;
       if(button.id == "secondbutton"){
-      myCart.push(theProducts[0].name + " $" +  theProducts[0].price);
+      myCart.push(theProducts[0].name);
+      myCart.push(theProducts[0].price);
       console.log(myCart[0]);
       createCart();
       clear(showSingleProduct);
@@ -152,13 +141,13 @@ cartIcon.addEventListener('click', function(){
 // View My Cart Page, Not Done
 function myCartPage(){
   var imageContainer = document.createElement('div');
-  imageContainer.setAttribute('class', 'container row col-md-6 panel panel-default');
+  imageContainer.setAttribute('class', 'panel panel-default');
   imageContainer.setAttribute('id', 'finalimage')
   productInfo.appendChild(imageContainer);
 
   var productHeader = document.createElement('div');
   productHeader.setAttribute('class', 'panel-heading');
-  productHeader.textContent = "Product Name";
+  productHeader.textContent = "My Cart";
 
   var theButton = document.createElement('button');
   theButton.setAttribute('class', 'panel-body btn btn-success');
@@ -167,11 +156,12 @@ function myCartPage(){
 
   var productText = document.createElement('div');
   productText.setAttribute('class', 'h3 panel-body')
-  productText.textContent = myCart[0];
+  productText.textContent = myCart[0] + " " + myCart[1];
+  console.log(myCart)
 
   var productPrice = document.createElement('div');
   productPrice.setAttribute('class', 'panel-footer');
-  productPrice.textContent = "Product Price";
+  productPrice.textContent = "Checkout Below";
 
   imageContainer.appendChild(productHeader);
   imageContainer.appendChild(productText);
@@ -181,11 +171,27 @@ function myCartPage(){
   theButton.addEventListener('click', function(e){
     button = e.target;
     if(button.id == "checkout") {
-    //  checkItOut();
+     checkItOut();
+     grandTotal();
       theButton.disabled = true;
     }
-  })
+  });
 }
+
+function checkItOut(){
+var newForm = document.getElementsByClassName('hide-form')[0];
+    newForm.classList.remove("hide-form");
+    newForm.classList.add("second")
+}
+
+function grandTotal() {
+  var location = document.getElementById('total');
+  var price = document.createElement('h3');
+  price.textContent = "Your Grand Total is " + "$" + myCart[1];
+  location.appendChild(price)
+}
+
+
 /** Search TODO:
 Add partial matches functionality
 Clear page when button is clicked again
@@ -204,4 +210,9 @@ Show subtotal
 Display 'Checkout' button
 Allow user to fill out form and complete purhcase
 Show message 'Thank you for your order'
+**/
+
+/** TODO: STORING ORDER DETAILS FROM CHECKOUT FORM
+Push form values into a 'order history' array
+Access each item and display in 'my order history' page
 **/
