@@ -16,8 +16,6 @@ function searchMatch(searchTerm) {
     }
   }
 };
-
-
 // Search Functionality & Displaying Products
 var searchButton = document.getElementById('clickSearch');
 searchButton.addEventListener('click', function() {
@@ -190,7 +188,6 @@ function grandTotal() {
   price.textContent = "Your Grand Total is " + "$" + myCart[1];
   location.appendChild(price)
 }
-
 
 /** Search TODO:
 Add partial matches functionality
