@@ -49,7 +49,7 @@ searchButton.addEventListener('click', function() {
     showProduct.appendChild(productDisplay);
     }
     if(!matched) {
-    console.log(partialMatch(term.value));
+    //console.log(partialMatch(term.value));
     }
 });
 
@@ -77,6 +77,14 @@ function productPage() {
   titleInfo.setAttribute('class', 'h3');
   titleInfo.textContent = theProducts[0].name;
 
+
+
+  var reviewLink = document.createElement('h6');
+  reviewLink.setAttribute('id', 'review-link')
+  reviewLink.textContent = "Write a review"
+  writeReview();
+
+
   var priceInfo = document.createElement('div');
   priceInfo.setAttribute('class', 'h4');
   priceInfo.setAttribute('id', 'price')
@@ -97,6 +105,7 @@ function productPage() {
 
   // document.body.appendChild(theDisplay);
   theDisplay.appendChild(titleInfo);
+  theDisplay.appendChild(reviewLink);
   theDisplay.appendChild(productImg);
   theDisplay.appendChild(priceInfo);
   theDisplay.appendChild(description);
@@ -171,23 +180,97 @@ function myCartPage(){
     if(button.id == "checkout") {
      checkItOut();
      grandTotal();
-      theButton.disabled = true;
+     theButton.disabled = true;
     }
   });
 }
-
+// Displays Checkout form on MyCart page
 function checkItOut(){
 var newForm = document.getElementsByClassName('hide-form')[0];
     newForm.classList.remove("hide-form");
     newForm.classList.add("second")
 }
-
+// Shows total in checkout form
 function grandTotal() {
   var location = document.getElementById('total');
   var price = document.createElement('h3');
   price.textContent = "Your Grand Total is " + "$" + myCart[1];
   location.appendChild(price)
 }
+
+/** WRITING A REVIEW **/
+//Create function that adds eventlistener when clicked, clears content and loads new content (toggle classes)
+function writeReview() {
+  var theLink = document.getElementsByClassName('show-product')[0];
+  theLink.addEventListener('click', function(e){
+    clicker = e.target;
+    if(clicker.id == "review-link"){
+      var reviewClick = document.getElementsByClassName('show-product')[0];
+      reviewClick.classList.remove('show-product')
+      reviewClick.classList.add('review-remove-product');
+      reviewPage();
+    }
+  });
+}
+
+function reviewPage() {
+  var reviewContainer = document.createElement('div');
+  reviewContainer.setAttribute('class', 'container row col-md-4')
+
+  var reviewImage = document.createElement('img');
+  reviewImage.setAttribute('src', theProducts[0].largeImage);
+  reviewImage.setAttribute('class', 'panel-body col-lg-4')
+
+  var reviews = document.createElement('h4');
+  reviews.setAttribute('class', 'panel panel-default panel-heading col-lg-4');
+  reviews.textContent = "Reviews"
+
+  var reviewTitle = document.createElement('h3');
+  reviewTitle.textContent = products[0].name + " Review";
+
+  var reviewInput = document.createElement('textarea');
+  reviewInput.setAttribute('class', 'form-control')
+  reviewContainer.appendChild(reviewInput)
+
+  document.getElementById('products').appendChild(reviewTitle);
+  document.getElementById('products').appendChild(reviewImage);
+  document.getElementById('products').appendChild(reviews);
+  document.getElementById('products').appendChild(reviewContainer);
+  //document.getElementById('products').appendChild(reviewInput);
+
+
+}
+
+/**
+  var reviewLink = document.createElement('h6');
+  reviewLink.setAttribute('id', 'review-link')
+  reviewLink.textContent = "Write a review"
+
+  function writeReview() {
+    document.querySelector('review-link').addEventListener('click', function(e){
+      clicker = e.target;
+      if(clicker.id =="show-product"){
+        var reviewClick = document.getElementsByClassName('show-product');
+        reviewClick.classList.remove('show-product')
+        reviewClick.classList.add('review-remove-product');
+      }
+    });
+  }
+  **/
+
+  //  writeReview();
+
+
+
+
+
+
+
+
+//get a parent element
+//add event listener to parent element
+
+
 
 /** Search TODO:
 Add partial matches functionality
@@ -212,4 +295,13 @@ Show message 'Thank you for your order'
 /** TODO: STORING ORDER DETAILS FROM CHECKOUT FORM
 Push form values into a 'order history' array
 Access each item and display in 'my order history' page
+**/
+
+/** Write a review TODO:
+Establish unique identifier for selected product
+Create 'write a review' link on individual product page
+Create function that adds eventlistener when clicked, clears content and loads new content (toggle classes)
+Load text field below product image
+Save new review to an array reviews[]
+create colum on right side of reviews
 **/
