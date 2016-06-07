@@ -20,12 +20,90 @@
         </nav>
       </div>
     </div>
-    <div class="container-fluid">
+    <div class="container">
+      <div class="hide-success"><p>Success</p></div>
       <div class="row" id="products">
-        <div class="row" id="show">
+        <div class="show-product">
+          <div class="row" id="show">
         </div>
-        <div class="row" id="form"></div>
+        </div>
       </div>
+<!-- Adding Images Dynamically for results (from bojack example)
+      <div class="result">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading" id="product-heading"></div>
+                <div class="panel-body" id="product-image">
+                </div>
+                <div class="panel-footer panel-custom" id="product-price"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+-->
+      </div>
+      <div class="hide-form">
+        <div class="container">
+          <div class="row">
+            <div class="panel panel-default" id="main">
+              <div class="panel-heading">
+                Checkout
+              </div>
+              <div class="panel-body">
+                <form method="post" action="" class="form-horizontal" id="the-form">
+                  <div class="form-group form-inline">
+                    <label for="name" class="col-sm-1 control-label">Name:</label>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" id="name" placeholder="First" required="required">
+                    </div>
+                    <label for="name" class="col-sm-1 control-label"></label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="lastname" placeholder="Last" required="required">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="email" class="col-sm-1 control-label">Email:</label>
+                    <div class="col-sm-5">
+                      <input type="email" class="form-control" id="email" placeholder="Email" required="required">
+                    </div>
+                  </div>
+                  <div class="form-group has-danger">
+                    <label for="credit" class="col-sm-1 control-label">CC #</label>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" id="credit" placeholder="####-###-####" required="required">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="address" class="col-sm-1 control-label">Address:</label>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" id="address" placeholder="1600 Pennsylvania Ave." required="required">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="shipping" class="col-sm-1 control-label">Shipping:</label>
+                    <div class="col-sm-2">
+                      <select class="form-control" required="required">
+                        <option></option>
+                        <option>Pony Express</option>
+                        <option>Carrier Pigeon</option>
+                        <option>Bicycle Parcel Service</option>
+                        <option>Airdrop</option>
+                        <option>Drone</option>
+                      </select>
+                    </div>
+                  </div>
+
+              </div>
+              <div class="panel-footer"><div class="row" id="total"></div>
+              <div><button type="submit" class="btn btn-primary" data-toggle="tooltip" data-palcement="left" title="Review order before clicking!" id="checkoutbutton">Purchase</button></div></div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
     </div>
     <script src="default.js">
     </script>

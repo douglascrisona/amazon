@@ -34,3 +34,31 @@
 #checkout {
   margin-bottom: 20px;
 }
+
+.hide-form {
+  display: none;
+}
+
+#total {
+  margin-left: 20px;
+}
+
+.result {
+  display:
+}
+
+#lookhistory {
+  margin-top: 70px;
+}
+
+.hide-success {
+  display: none;
+}
+
+.review-remove-product {
+  display: none;
+}
+
+#review-link:hover {
+  color: gray;
+}
