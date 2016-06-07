@@ -1,11 +1,11 @@
 // Tennis Products
 var products = [
-  { name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals.", image: 'images/Thumb_Item_1.png', largeImage: 'images/Large_Item_1.png' },
-  { name: 'Wilson Pro Staff', price: 199.00, description: "Thie is Roger Federer's racket of choice, you can't go wrong with that!", image: 'images/Thumb_Item_2.png', largeImage: 'images/Large_Item_2.png' },
-  { name: 'Penn Tennis Ball Champ 3pk', price: 2.04, description: "A 3 pack of tennis balls.", image: 'images/Thumb_Item_3.png', largeImage: 'images/Large_Item_3.png' },
-  { name: 'NikeCourt Premier RF Emoji Head', price: 35.00, description: "Emoji shirt worn by Roger Federer.", image: 'images/Thumb_Item_4.png', largeImage: 'images/Large_Item_4.png' },
-  { name: 'Nike Vapor Court', price: 49.95, description: "Tennis sneakers for all-court play.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
-  { name: 'Head Tour Team Tennis Bag', price: 39.95, description: "Hold your new rackets in this extra large tennis bag.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
+  {id: 1, name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals.", image: 'images/Thumb_Item_1.png', largeImage: 'images/Large_Item_1.png' },
+  {id: 2, name: 'Wilson Pro Staff', price: 199.00, description: "Thie is Roger Federer's racket of choice, you can't go wrong with that!", image: 'images/Thumb_Item_2.png', largeImage: 'images/Large_Item_2.png' },
+  {id: 3, name: 'Penn Tennis Ball Champ 3pk', price: 2.04, description: "A 3 pack of tennis balls.", image: 'images/Thumb_Item_3.png', largeImage: 'images/Large_Item_3.png' },
+  {id: 4, name: 'NikeCourt Premier RF Emoji Head', price: 35.00, description: "Emoji shirt worn by Roger Federer.", image: 'images/Thumb_Item_4.png', largeImage: 'images/Large_Item_4.png' },
+  {id: 5, name: 'Nike Vapor Court', price: 49.95, description: "Tennis sneakers for all-court play.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
+  {id: 6, name: 'Head Tour Team Tennis Bag', price: 39.95, description: "Hold your new rackets in this extra large tennis bag.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
 ]
 // Matches the search term with an object property string name
 // If equal, append results to the page
@@ -75,7 +75,8 @@ function productPage() {
 
   var titleInfo = document.createElement('div');
   titleInfo.setAttribute('class', 'h3');
-  titleInfo.textContent = theProducts[0].name;
+  //titleInfo.textContent = theProducts[0].name;
+  titleInfo.textContent = searchMatch(term.value).name;
 
 
 
@@ -230,14 +231,23 @@ function reviewPage() {
 
   var reviewInput = document.createElement('textarea');
   reviewInput.setAttribute('class', 'form-control')
-  reviewContainer.appendChild(reviewInput)
+  reviewInput.setAttribute('id', 'reviewfield')
+
+  var reviewButton = document.createElement('button');
+  reviewButton.setAttribute('class', 'btn btn-default');
+  reviewButton.textContent = "Submit"
+  reviewButton.setAttribute('data-id', products[0].id);
+
+  reviewContainer.appendChild(reviewInput);
+  reviewContainer.appendChild(reviewButton);
+
+
 
   document.getElementById('products').appendChild(reviewTitle);
   document.getElementById('products').appendChild(reviewImage);
   document.getElementById('products').appendChild(reviews);
   document.getElementById('products').appendChild(reviewContainer);
   //document.getElementById('products').appendChild(reviewInput);
-
 
 }
 
