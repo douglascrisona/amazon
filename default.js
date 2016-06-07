@@ -7,51 +7,44 @@ var products = [
   {id: 5, name: 'Nike Vapor Court', price: 49.95, description: "Tennis sneakers for all-court play.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
   {id: 6, name: 'Head Tour Team Tennis Bag', price: 39.95, description: "Hold your new rackets in this extra large tennis bag.", image: 'images/Thumb_Image_5.png', largeImage: 'images/Large_Image_5.png' },
 ]
+
+var cart = [];
+
 // Matches the search term with an object property string name
 // If equal, append results to the page
 function searchMatch(searchTerm) {
+  var suggestions = [];
+
   for(var i = 0; i < products.length; i++) {
     if(searchTerm.toLowerCase() === products[i].name.toLowerCase()) {
-      return products[i];
+      suggestions.push(products[i]);
     }
   }
-};
-// Search Functionality & Displaying Products
-var searchButton = document.getElementById('clickSearch');
-searchButton.addEventListener('click', function() {
-  var term = document.getElementById('term');
-  var matched = searchMatch(term.value);
 
-  if(matched) {
+  return suggestions;
+};
+
+function createItem(item) {
+  if(item) {
     var productDisplay = document.createElement('div');
     productDisplay.className = 'col-xs-3 col-offset-md-2 text-center'
 
-    //var position = document.getElementById('products');
-    productDisplay.textContent = matched.name + " $" + matched.price;
+    productDisplay.textContent = item.name + " $" + item.price;
 
     var img = document.createElement('img');
-    img.setAttribute('src', matched.image)
+    img.setAttribute('src', item.image)
     productDisplay.appendChild(img);
 
     var firstButton = document.createElement('button');
     firstButton.setAttribute('class', 'btn btn-success');
     firstButton.setAttribute('id', 'firstbutton');
+    firstButton.setAttribute('data-id', item.id);
     firstButton.textContent = "View Product"
     productDisplay.appendChild(firstButton);
+  }
 
-    firstButton.addEventListener('click', function(e){
-      button = e.target;
-      if(button.id = "firstbutton") {
-      clear(showProduct);
-      }
-    });
-    var showProduct = document.getElementById('show');
-    showProduct.appendChild(productDisplay);
-    }
-    if(!matched) {
-    //console.log(partialMatch(term.value));
-    }
-});
+  return productDisplay;
+}
 
 // Clears page when area is clicked
 function clear(area) {
@@ -59,50 +52,109 @@ function clear(area) {
     area.removeChild(area.firstChild);
   }
 }
-// Adds product page for individual product selected from search results
-var theProducts = [];
-var productInfo = document.getElementById('products');
-productInfo.addEventListener('click', function(){
-  theProducts.push(searchMatch(term.value));
-  productPage();
+
+// Search Functionality & Displaying Products
+var searchButton = document.getElementById('clickSearch');
+searchButton.addEventListener('click', function() {
+  var term = document.getElementById('term');
+  var matched = searchMatch(term.value);
+
+  var product = createItem(matched[0]);
+
+  var button = product.getElementsByTagName('button')[0];
+  button.addEventListener('click', function(e){
+    button = e.target;
+    if( button.id = "firstbutton" ) {
+      clear(showProduct);
+    }
+  });
+
+  var showProduct = document.getElementById('show');
+  showProduct.appendChild(product);
 });
 
-var myCart = [];
+// Adds product page for individual product selected from search results
+var productInfo = document.getElementById('products');
+productInfo.addEventListener('click', function(theEvent){
+  var index = theEvent.target.getAttribute('data-id');
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id == index) {
+      var page = productPage(products[i]);
+      var showSingleProduct = document.getElementById('show');
+      showSingleProduct.appendChild(page);
+    }
+  }
+});
+
+// Add the item to the cart when the button is clicked.
+var theProducts = document.getElementById('products');
+theProducts.addEventListener('click', function(theEvent) {
+  if (theEvent.target.getAttribute('id') == 'secondbutton') {
+    var button = document.getElementById('secondbutton');
+    for (var i = 0; i < products.length; i++) {
+      if (products[i].id == button.getAttribute('data-id')) {
+        addToCart(products[i]);
+      }
+    }
+  }
+});
+
+// Add an item to the cart and display the cart icon.
+function addToCart(product) {
+  var cartNav = document.getElementById('nav');
+  cart.push(product);
+
+  // If there is no icon, make one.
+  if (document.getElementsByClassName('cart-icon').length == 0) {
+    var cartIcon = document.createElement('img');
+    cartIcon.setAttribute('class', 'cart-icon');
+    cartIcon.setAttribute('src', 'images/MyCart.png');
+    cartIcon.setAttribute('id', 'littlecart');
+    cartNav.appendChild(cartIcon);
+
+    var navbar = document.getElementsByClassName('navbar')[0];
+    navbar.appendChild(cartIcon);
+  }
+
+  // Add an event listener for clicks and show cart.
+  cartIcon.addEventListener('click', function() {
+    clear(document.getElementById('products'));
+    myCartPage(cart);
+  })
+}
+
 // Create Individual Product Page
-function productPage() {
+function productPage(product) {
   var theDisplay = document.createElement('div');
   theDisplay.setAttribute('class', 'panel-body')
 
   var titleInfo = document.createElement('div');
   titleInfo.setAttribute('class', 'h3');
-  //titleInfo.textContent = theProducts[0].name;
-  titleInfo.textContent = searchMatch(term.value).name;
-
-
+  titleInfo.textContent = product.name;
 
   var reviewLink = document.createElement('h6');
   reviewLink.setAttribute('id', 'review-link')
   reviewLink.textContent = "Write a review"
   writeReview();
 
-
   var priceInfo = document.createElement('div');
   priceInfo.setAttribute('class', 'h4');
   priceInfo.setAttribute('id', 'price')
-  priceInfo.textContent = "$" + theProducts[0].price
+  priceInfo.textContent = "$" + product.price
 
   var productImg = document.createElement('img');
   //productImg.src = "images/BabolatLarge.png";
-  productImg.setAttribute('src', theProducts[0].largeImage);
+  productImg.setAttribute('src', product.largeImage);
 
   var theButton = document.createElement('div');
   theButton.setAttribute('class', 'btn btn-success');
-  theButton.setAttribute('id', 'secondbutton')
+  theButton.setAttribute('id', 'secondbutton');
+  theButton.setAttribute('data-id', product.id);
   theButton.textContent = "Add to Cart"
 
   var description = document.createElement('p');
   description.setAttribute('class', 'panel-body');
-  description.textContent = theProducts[0].description;
+  description.textContent = product.description;
 
   // document.body.appendChild(theDisplay);
   theDisplay.appendChild(titleInfo);
@@ -112,84 +164,77 @@ function productPage() {
   theDisplay.appendChild(description);
   theDisplay.appendChild(theButton);
   //theDisplay.appendChild(priceInfo);
-  var showSingleProduct = document.getElementById('show');
-  showSingleProduct.appendChild(theDisplay);
 
-  // Add to cart function
-  function addToCart() {
-    //var myCart = [];
-    theButton.addEventListener('click', function(e){
-      //console.log(theProducts[0].name + " $" + theProducts[0].price);
-      button = e.target;
-      if(button.id == "secondbutton"){
-      myCart.push(theProducts[0].name);
-      myCart.push(theProducts[0].price);
-      console.log(myCart[0]);
-      createCart();
-      clear(showSingleProduct);
-      }
-    })
-  }
-  addToCart();
-}
-// Creates Clickable Cart Icon to view cart
-var newContainer = document.getElementById('nav');
-var cartIcon = document.createElement('img');
-function createCart(){
-  cartIcon.setAttribute('src', 'images/MyCart.png');
-  cartIcon.setAttribute('id', 'littlecart');
-  newContainer.appendChild(cartIcon);
+  return theDisplay;
 }
 
-cartIcon.addEventListener('click', function(){
-  clear(document.getElementById('products'));
-  myCartPage();
-})
+// cartIcon.addEventListener('click', function(){
+//   clear(document.getElementById('products'));
+//   myCartPage();
+// })
 
 // View My Cart Page, Not Done
-function myCartPage(){
-  var imageContainer = document.createElement('div');
-  imageContainer.setAttribute('class', 'panel panel-default');
-  imageContainer.setAttribute('id', 'finalimage')
-  productInfo.appendChild(imageContainer);
+function myCartPage(itemsInCart){
+  var products = document.getElementById('products');
+
+  var cartPage = document.createElement('div');
+  cartPage.setAttribute('class', 'panel panel-default');
+  products.appendChild(cartPage);
 
   var productHeader = document.createElement('div');
   productHeader.setAttribute('class', 'panel-heading');
   productHeader.textContent = "My Cart";
+
+  var theProducts = document.createElement('div');
+  theProducts.setAttribute('class', 'panel-body');
 
   var theButton = document.createElement('button');
   theButton.setAttribute('class', 'panel-body btn btn-success');
   theButton.setAttribute('id', 'checkout');
   theButton.textContent = "Checkout Now";
 
-  var productText = document.createElement('div');
-  productText.setAttribute('class', 'h3 panel-body')
-  productText.textContent = myCart[0] + " " + myCart[1];
-  console.log(myCart)
+  cartPage.appendChild(productHeader);
+  cartPage.appendChild(theProducts);
+  cartPage.appendChild(theButton);
 
-  var productPrice = document.createElement('div');
-  productPrice.setAttribute('class', 'panel-footer');
-  productPrice.textContent = "Checkout Below";
+  for (var i = 0; i < itemsInCart.length; i++) {
+    theProducts.appendChild(theCartItem(itemsInCart[i]));
+  }
 
-  imageContainer.appendChild(productHeader);
-  imageContainer.appendChild(productText);
-  imageContainer.appendChild(theButton);
-  imageContainer.appendChild(productPrice);
+  function theCartItem(anItem) {
+    var container = document.createElement('div');
+    container.className = "panel panel-default";
+
+    var productText = document.createElement('div');
+    productText.setAttribute('class', 'h3 panel-body')
+    productText.textContent = anItem.name + " " + anItem.price;
+
+    var productPrice = document.createElement('div');
+    productPrice.setAttribute('class', 'panel-footer');
+    productPrice.textContent = "Checkout Below";
+
+    container.appendChild(productText);
+    container.appendChild(productPrice);
+
+    return container;
+  }
 
   theButton.addEventListener('click', function(e){
     button = e.target;
     if(button.id == "checkout") {
-     checkItOut();
-     grandTotal();
-     theButton.disabled = true;
+      checkItOut();
+      grandTotal();
+      theButton.disabled = true;
     }
   });
+
+  products.appendChild(cartPage);
 }
 // Displays Checkout form on MyCart page
 function checkItOut(){
-var newForm = document.getElementsByClassName('hide-form')[0];
-    newForm.classList.remove("hide-form");
-    newForm.classList.add("second")
+  var newForm = document.getElementsByClassName('hide-form')[0];
+  newForm.classList.remove("hide-form");
+  newForm.classList.add("second")
 }
 // Shows total in checkout form
 function grandTotal() {
@@ -252,23 +297,23 @@ function reviewPage() {
 }
 
 /**
-  var reviewLink = document.createElement('h6');
-  reviewLink.setAttribute('id', 'review-link')
-  reviewLink.textContent = "Write a review"
+var reviewLink = document.createElement('h6');
+reviewLink.setAttribute('id', 'review-link')
+reviewLink.textContent = "Write a review"
 
-  function writeReview() {
-    document.querySelector('review-link').addEventListener('click', function(e){
-      clicker = e.target;
-      if(clicker.id =="show-product"){
-        var reviewClick = document.getElementsByClassName('show-product');
-        reviewClick.classList.remove('show-product')
-        reviewClick.classList.add('review-remove-product');
-      }
-    });
-  }
-  **/
+function writeReview() {
+document.querySelector('review-link').addEventListener('click', function(e){
+clicker = e.target;
+if(clicker.id =="show-product"){
+var reviewClick = document.getElementsByClassName('show-product');
+reviewClick.classList.remove('show-product')
+reviewClick.classList.add('review-remove-product');
+}
+});
+}
+**/
 
-  //  writeReview();
+//  writeReview();
 
 
 
