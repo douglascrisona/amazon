@@ -139,7 +139,7 @@ function productPage(product) {
   reviewLink.setAttribute('id', 'review-link')
   reviewLink.textContent = "Write a review"
   var theLink = document.getElementsByClassName('container')[0];
-  reviewLinkAction();
+  //reviewLinkAction();
 
   var priceInfo = document.createElement('div');
   priceInfo.setAttribute('class', 'h4');
@@ -170,8 +170,11 @@ function productPage(product) {
   theDisplay.appendChild(theButton);
   //theDisplay.appendChild(priceInfo);
 
+  var theReviewButton = document.getElementById('review-button');
+  theReviewButton.setAttribute('data-review-id', product.id);
+
   // Submit Review to individual object array function from below--placement?
-  submitReview(product.reviews);
+  //submitReview(product.reviews);
 
   return theDisplay;
 }
@@ -196,13 +199,8 @@ function myCartPage(itemsInCart){
   theButton.setAttribute('id', 'checkout');
   theButton.textContent = "Checkout Now";
 
-  // Calculates and displays grand total--Is this the right placement?
-  var theGrandTotal = 0;
-  for(var i = 0; i < cart.length; i++) {
-    theGrandTotal += cart[i].price  ;
-  }
   var newTotal = document.createElement('h3');
-  newTotal.textContent = "Your Grand Total is: " + theGrandTotal;
+  newTotal.textContent = "Your Grand Total is: " + grandTotal(cart)
 
   cartPage.appendChild(productHeader);
   cartPage.appendChild(theProducts);
@@ -251,6 +249,17 @@ function checkOutForm(theClick){
 
 /** WRITING A REVIEW **/
 // Submits review from product page (this function is called in the productpage() function)
+var theReviewLinkArea = document.getElementsByClassName('show-product')[0];
+theReviewLinkArea.addEventListener('click', function(e){
+  clicker = e.target;
+  if(clicker.id == "review-link") {
+    var reviewClick = document.getElementsByClassName('hide-review')[0];
+    reviewClick.classList.remove('hide-review')
+    reviewClick.classList.add('show-form');
+  }
+});
+
+/**
 function reviewLinkAction() {
   var theLink = document.getElementsByClassName('container')[0];
   theLink.addEventListener('click', function(e){
@@ -262,7 +271,10 @@ function reviewLinkAction() {
     }
   });
 }
+**/
 // Submits review from product page (this function is called in the productpage() function)
+
+/**
 function submitReview(theProduct) {
   var reviewButton = document.getElementById('review-button');
 
@@ -272,6 +284,31 @@ function submitReview(theProduct) {
     console.log(theProduct)
   })
 }
+**/
+// Refactored Submit Review--Doesn't need to be wrapped in function/called withing productpage.
+var reviewArea = document.getElementsByClassName('show-product')[0];
+var reviewContent = document.getElementById('review-field');
+
+reviewArea.addEventListener('click', function(e) {
+  var reviewIndex = e.target.getAttribute('data-review-id');
+  for(var i = 0; i < products.length; i++) {
+    if (reviewIndex == products[i].id) {
+      products[i].reviews.push(reviewContent.value);
+      console.log(products[i].reviews)
+    }
+  }
+});
+
+// Calculates grand total (called in mycartpage function)
+function grandTotal(item) {
+  var total = 0
+  for(var i = 0; i < item.length; i++) {
+    total += item[i].price  ;
+  }
+  return total;
+}
+
+
 
 // Grand Total.  (Line 200 within mycartpage(element creation) function).
 // Checkoutform function line 246 (called on line 237 within mycartpage(element creation) function)
