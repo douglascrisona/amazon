@@ -72,7 +72,7 @@ searchButton.addEventListener('click', function() {
   showProduct.appendChild(product);
 });
 
-// GOHERE
+
 // Adds product page for individual product selected from search results
 var productInfo = document.getElementById('products');
 productInfo.addEventListener('click', function(theEvent){
@@ -82,38 +82,14 @@ productInfo.addEventListener('click', function(theEvent){
       var page = productPage(products[i]);
       var showSingleProduct = document.getElementById('show');
       showSingleProduct.appendChild(page);
-      //console.log(products[i].name);
-      //products[i].reviews.push("testing");
-      //console.log(products[i].reviews)
-      //console.log(products[i].id)
+
       function reviewPage(productInfo) {
-        //console.log(productInfo)
+
       }
-      reviewPage(products[i].name)
-
-
-
-
-
+      reviewPage(products[i].name);
     }
   }
 });
-//REVIEWS ****************************************************
-var theReviewItem = document.getElementById('show');
-theReviewItem.addEventListener('click', function(theEvent){
-  var index = theEvent.target.getAttribute('data-id');
-  for(var i = 0; i < products.length; i++){
-    if(products[i].id == index) {
-      console.log(products[i].price)
-    }
-  }
-});
-
-
-
-
-
-
 // Add the item to the cart when the button is clicked.
 var theProducts = document.getElementById('products');
 theProducts.addEventListener('click', function(theEvent) {
@@ -126,7 +102,6 @@ theProducts.addEventListener('click', function(theEvent) {
     }
   }
 });
-
 // Add an item to the cart and display the cart icon.
 function addToCart(product) {
   var cartNav = document.getElementById('nav');
@@ -160,12 +135,10 @@ function productPage(product) {
   titleInfo.setAttribute('class', 'h3');
   titleInfo.textContent = product.name;
 
-  //console.log(product.reviews)
-  //submitReview(product);
-
   var reviewLink = document.createElement('h6');
   reviewLink.setAttribute('id', 'review-link')
   reviewLink.textContent = "Write a review"
+  var theLink = document.getElementsByClassName('container')[0];
   reviewLinkAction();
 
   var priceInfo = document.createElement('div');
@@ -198,25 +171,10 @@ function productPage(product) {
   //theDisplay.appendChild(priceInfo);
 
   // Submit Review to individual object array function from below--placement?
-  submitReview(product);
+  submitReview(product.reviews);
 
   return theDisplay;
 }
-
-// cartIcon.addEventListener('click', function(){
-//   clear(document.getElementById('products'));
-//   myCartPage();
-// })
-
-//var theGrandTotal = 0;
-//for(var i = 0; i < cart.length; i++) {
-//  theGrandTotal += cart[i].price  ;
-//}
-// displayTotal(theGrandTotal);
-
-//function displayTotal(allItems) {
-//  alert("testing total")
-//}
 
 // View My Cart Page, Not Done
 function myCartPage(itemsInCart){
@@ -276,7 +234,7 @@ function myCartPage(itemsInCart){
   theButton.addEventListener('click', function(e){
     button = e.target;
     if(button.id == "checkout") {
-      checkItOut();
+      checkOutForm(e);
       //grandTotal();
       theButton.disabled = true;
     }
@@ -285,25 +243,14 @@ function myCartPage(itemsInCart){
   products.appendChild(cartPage);
 }
 // Displays Checkout form on MyCart page
-function checkItOut(){
+function checkOutForm(theClick){
   var newForm = document.getElementsByClassName('hide-form')[0];
   newForm.classList.remove("hide-form");
   newForm.classList.add("second")
 }
 
-/**
-// Shows total in checkout form
-function grandTotal() {
-  var location = document.getElementById('total');
-  var price = document.createElement('h3');
-  //price.textContent = "Your Grand Total is " + "$" + myCart[1];
-  location.appendChild(price)
-}
-**/
-
 /** WRITING A REVIEW **/
-
-// Adds review form to product page when "Write a Review" link is clicked
+// Submits review from product page (this function is called in the productpage() function)
 function reviewLinkAction() {
   var theLink = document.getElementsByClassName('container')[0];
   theLink.addEventListener('click', function(e){
@@ -315,16 +262,25 @@ function reviewLinkAction() {
     }
   });
 }
-
 // Submits review from product page (this function is called in the productpage() function)
-function submitReview(product) {
+function submitReview(theProduct) {
   var reviewButton = document.getElementById('review-button');
+
   reviewButton.addEventListener('click', function() {
     var reviewField = document.getElementById('review-field');
-    product.reviews.push(reviewField.value)
-    console.log(product.reviews)
-})
+    theProduct.push(reviewField.value)
+    console.log(theProduct)
+  })
 }
+
+// Grand Total.  (Line 200 within mycartpage(element creation) function).
+// Checkoutform function line 246 (called on line 237 within mycartpage(element creation) function)
+// Review link event listener. Line 254 (called on lne 142 withing create productPage(element creation) function)
+// submitReview funciton. Line 266(called on 174 withing productPage(element creation) function)
+
+
+
+
 
 /** Search TODO:
 Add partial matches functionality
