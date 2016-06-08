@@ -161,7 +161,7 @@ function productPage(product) {
   titleInfo.textContent = product.name;
 
   //console.log(product.reviews)
-  submitReview(product);
+  //submitReview(product);
 
   var reviewLink = document.createElement('h6');
   reviewLink.setAttribute('id', 'review-link')
@@ -182,7 +182,7 @@ function productPage(product) {
   theButton.setAttribute('class', 'btn btn-success');
   theButton.setAttribute('id', 'secondbutton');
   theButton.setAttribute('data-id', product.id);
-  theButton.textContent = "Add to Cart"
+  theButton.textContent = "Add to Cart";
 
   var description = document.createElement('p');
   description.setAttribute('class', 'panel-body');
@@ -196,6 +196,9 @@ function productPage(product) {
   theDisplay.appendChild(description);
   theDisplay.appendChild(theButton);
   //theDisplay.appendChild(priceInfo);
+
+  // Submit Review to individual object array function from below--placement?
+  submitReview(product);
 
   return theDisplay;
 }
@@ -299,21 +302,8 @@ function grandTotal() {
 **/
 
 /** WRITING A REVIEW **/
-//Create function that adds eventlistener when clicked, clears content and loads new content (toggle classes)
-/**
-function theReviewLink(theProduct) {
-  var theLink = document.getElementsByClassName('show-product')[0];
-  theLink.addEventListener('click', function(e){
-    clicker = e.target;
-    if(clicker.id == "review-link"){
-      var reviewClick = document.getElementsByClassName('show-product')[0];
-      reviewClick.classList.remove('show-product')
-      reviewClick.classList.add('review-remove-product');
-    }
-  });
-}
-**/
 
+// Adds review form to product page when "Write a Review" link is clicked
 function reviewLinkAction() {
   var theLink = document.getElementsByClassName('container')[0];
   theLink.addEventListener('click', function(e){
@@ -326,68 +316,15 @@ function reviewLinkAction() {
   });
 }
 
-/**
-var reviewButton = document.getElementById('review-button');
-reviewButton.addEventListener('click', function() {
-
-
-  //for(var i = 0; i < products.length; i++){
-
-//  }
-
-  var review = document.getElementById('review');
-  var theReview = review.value;
-  products[i].reviews.push(theReview)
-});
-**/
-
-
-// Submits review from product page (function called in productpage() function)
+// Submits review from product page (this function is called in the productpage() function)
 function submitReview(product) {
   var reviewButton = document.getElementById('review-button');
   reviewButton.addEventListener('click', function() {
-    var review = document.getElementById('review');
-    product.reviews.push(review.value)
+    var reviewField = document.getElementById('review-field');
+    product.reviews.push(reviewField.value)
     console.log(product.reviews)
 })
 }
-
-
-
-
-
-
-
-/**
-var reviewLink = document.createElement('h6');
-reviewLink.setAttribute('id', 'review-link')
-reviewLink.textContent = "Write a review"
-
-function writeReview() {
-document.querySelector('review-link').addEventListener('click', function(e){
-clicker = e.target;
-if(clicker.id =="show-product"){
-var reviewClick = document.getElementsByClassName('show-product');
-reviewClick.classList.remove('show-product')
-reviewClick.classList.add('review-remove-product');
-}
-});
-}
-**/
-
-//  writeReview();
-
-
-
-
-
-
-
-
-//get a parent element
-//add event listener to parent element
-
-
 
 /** Search TODO:
 Add partial matches functionality
