@@ -138,8 +138,13 @@ function productPage(product) {
   var reviewLink = document.createElement('h6');
   reviewLink.setAttribute('id', 'review-link')
   reviewLink.textContent = "Write a review"
-  var theLink = document.getElementsByClassName('container')[0];
+  //var theLink = document.getElementsByClassName('container')[0];
   //reviewLinkAction();
+
+  var viewReview = document.createElement('h6');
+  viewReview.setAttribute('id', 'view-review-link')
+  //viewReview.setAttribute('id', 'hide-link')
+  viewReview.textContent = "Reviews"
 
   var priceInfo = document.createElement('div');
   priceInfo.setAttribute('class', 'h4');
@@ -164,6 +169,7 @@ function productPage(product) {
   // document.body.appendChild(theDisplay);
   theDisplay.appendChild(titleInfo);
   theDisplay.appendChild(reviewLink);
+  theDisplay.appendChild(viewReview);
   theDisplay.appendChild(productImg);
   theDisplay.appendChild(priceInfo);
   theDisplay.appendChild(description);
@@ -247,8 +253,7 @@ function checkOutForm(theClick){
   newForm.classList.add("second")
 }
 
-/** WRITING A REVIEW **/
-// Submits review from product page (this function is called in the productpage() function)
+// Refactored reviewLink--Doesnt need to be wrapped in function/called within productPage
 var theReviewLinkArea = document.getElementsByClassName('show-product')[0];
 theReviewLinkArea.addEventListener('click', function(e){
   clicker = e.target;
@@ -259,33 +264,7 @@ theReviewLinkArea.addEventListener('click', function(e){
   }
 });
 
-/**
-function reviewLinkAction() {
-  var theLink = document.getElementsByClassName('container')[0];
-  theLink.addEventListener('click', function(e){
-    clicker = e.target;
-    if(clicker.id == "review-link"){
-      var reviewClick = document.getElementsByClassName('hide-review')[0];
-      reviewClick.classList.remove('hide-review')
-      reviewClick.classList.add('show-form');
-    }
-  });
-}
-**/
-// Submits review from product page (this function is called in the productpage() function)
-
-/**
-function submitReview(theProduct) {
-  var reviewButton = document.getElementById('review-button');
-
-  reviewButton.addEventListener('click', function() {
-    var reviewField = document.getElementById('review-field');
-    theProduct.push(reviewField.value)
-    console.log(theProduct)
-  })
-}
-**/
-// Refactored Submit Review--Doesn't need to be wrapped in function/called withing productpage.
+// Refactored Submit Review--Doesn't need to be wrapped in function/called withing productPage
 var reviewArea = document.getElementsByClassName('show-product')[0];
 var reviewContent = document.getElementById('review-field');
 
@@ -294,12 +273,23 @@ reviewArea.addEventListener('click', function(e) {
   for(var i = 0; i < products.length; i++) {
     if (reviewIndex == products[i].id) {
       products[i].reviews.push(reviewContent.value);
-      console.log(products[i].reviews)
+      var reviewClick = document.getElementsByClassName('show-form')[0];
+      reviewClick.classList.remove('show-form')
+      reviewClick.classList.add('hide-review');
+
+      createIt(products[i].reviews);
     }
   }
 });
 
-// Calculates grand total (called in mycartpage function)
+// Initial Create Reviews Section
+function createIt(theinfo){
+  var newReview = document.createElement('div')
+  newReview.textContent = theinfo.join(' ')
+  document.body.appendChild(newReview)
+}
+
+// Removed function from myCartPage--Calculates grand total (called in mycartpage function)
 function grandTotal(item) {
   var total = 0
   for(var i = 0; i < item.length; i++) {
@@ -307,15 +297,6 @@ function grandTotal(item) {
   }
   return total;
 }
-
-
-
-// Grand Total.  (Line 200 within mycartpage(element creation) function).
-// Checkoutform function line 246 (called on line 237 within mycartpage(element creation) function)
-// Review link event listener. Line 254 (called on lne 142 withing create productPage(element creation) function)
-// submitReview funciton. Line 266(called on 174 withing productPage(element creation) function)
-
-
 
 
 
@@ -351,4 +332,10 @@ Create function that adds eventlistener when clicked, clears content and loads n
 Load text field below product image
 Save new review to an array reviews[]
 create colum on right side of reviews
+**/
+
+/** View Orders TODO:
+Retrieve values from form fields (in other file)
+Push to orders array
+Create element function to view orders (orders data as parameter), call from orders array using object data
 **/
