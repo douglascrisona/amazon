@@ -1,6 +1,6 @@
 // Tennis Products
 var products = [
-  {id: 1, name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals.", image: 'images/Thumb_Item_1.png', largeImage: 'images/Large_Item_1.png', reviews: ['test review'] },
+  {id: 1, name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals.", image: 'images/Thumb_Item_1.png', largeImage: 'images/Large_Item_1.png', reviews: ['I had a terrible experience with this product.  The holes in this fly swatter are much too large to kill any bugs.', 'This is the oddest shaped football I\'ve ever seen in my life, complete ripoff.'] },
   {id: 2, name: 'Wilson Pro Staff', price: 199.00, description: "Thie is Roger Federer's racket of choice, you can't go wrong with that!", image: 'images/Thumb_Item_2.png', largeImage: 'images/Large_Item_2.png', reviews: [] },
   {id: 3, name: 'Penn Tennis Ball Champ 3pk', price: 2.04, description: "A 3 pack of tennis balls.", image: 'images/Thumb_Item_3.png', largeImage: 'images/Large_Item_3.png', reviews: [] },
   {id: 4, name: 'NikeCourt Premier RF Emoji Head', price: 35.00, description: "Emoji shirt worn by Roger Federer.", image: 'images/Thumb_Item_4.png', largeImage: 'images/Large_Item_4.png', reviews: [] },
@@ -138,13 +138,6 @@ function productPage(product) {
   var reviewLink = document.createElement('h6');
   reviewLink.setAttribute('id', 'review-link')
   reviewLink.textContent = "Write a review"
-  //var theLink = document.getElementsByClassName('container')[0];
-  //reviewLinkAction();
-
-  var viewReview = document.createElement('h6');
-  viewReview.setAttribute('id', 'view-review-link')
-  //viewReview.setAttribute('id', 'hide-link')
-  viewReview.textContent = "Reviews"
 
   var priceInfo = document.createElement('div');
   priceInfo.setAttribute('class', 'h4');
@@ -152,9 +145,7 @@ function productPage(product) {
   priceInfo.textContent = "$" + product.price
 
   var productImg = document.createElement('img');
-  //productImg.src = "images/BabolatLarge.png";
   productImg.setAttribute('src', product.largeImage);
-
 
   var theButton = document.createElement('div');
   theButton.setAttribute('class', 'btn btn-success');
@@ -166,21 +157,15 @@ function productPage(product) {
   description.setAttribute('class', 'panel-body');
   description.textContent = product.description;
 
-  // document.body.appendChild(theDisplay);
   theDisplay.appendChild(titleInfo);
   theDisplay.appendChild(reviewLink);
-  theDisplay.appendChild(viewReview);
   theDisplay.appendChild(productImg);
   theDisplay.appendChild(priceInfo);
   theDisplay.appendChild(description);
   theDisplay.appendChild(theButton);
-  //theDisplay.appendChild(priceInfo);
 
   var theReviewButton = document.getElementById('review-button');
   theReviewButton.setAttribute('data-review-id', product.id);
-
-  // Submit Review to individual object array function from below--placement?
-  //submitReview(product.reviews);
 
   return theDisplay;
 }
@@ -283,10 +268,28 @@ reviewArea.addEventListener('click', function(e) {
 });
 
 // Initial Create Reviews Section
-function createIt(theinfo){
-  var newReview = document.createElement('div')
-  newReview.textContent = theinfo.join(' ')
-  document.body.appendChild(newReview)
+function createIt(theinfo) {
+  var theSection = document.getElementById('show');
+
+  var reviewBox = document.createElement('div');
+  reviewBox.setAttribute('class', 'panel panel-default');
+  reviewBox.setAttribute('id', 'review-panel')
+  theSection.appendChild(reviewBox);
+
+  var reviewTitle = document.createElement('div');
+  reviewTitle.textContent = "Customer Reviews"
+  reviewTitle.setAttribute('class', 'panel-heading')
+  reviewTitle.setAttribute('id', 'review-title')
+  reviewBox.appendChild(reviewTitle);
+
+  for(var i = 0; i < theinfo.length; i++) {
+    console.log(theinfo[i])
+    var newReview = document.createElement('div');
+    newReview.textContent = theinfo[i]/**.join(' ')**/;
+    newReview.setAttribute('class', 'panel-body')
+    newReview.setAttribute('id', 'each-review')
+    reviewBox.appendChild(newReview);
+  }
 }
 
 // Removed function from myCartPage--Calculates grand total (called in mycartpage function)
