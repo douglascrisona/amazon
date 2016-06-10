@@ -1,6 +1,6 @@
 // Tennis Products
 var products = [
-  {id: 1, name: 'Tennis Racket' , price: 120.95, description: "This is a tennis racquet used by professionals.", image: 'images/Thumb_Item_1.png', largeImage: 'images/Large_Item_1.png', reviews: ['I had a terrible experience with this product.  The holes in this fly swatter are much too large to kill any bugs.', 'This is the oddest shaped football I\'ve ever seen in my life, complete ripoff.'] },
+  {id: 1, name: 'Tennis Racket' , price: 120.95, description: "The latest version of the AeroPro Drive, our most popular racquet, swings a little faster than its predecessor. This makes it even more dangerous in the hands of aggressive baseliners. The fast feel conjures up images of Rafael Nadal who has endorsed multiple generations of this racquet. Updated with Active Cortex technology, the feel is slightly smoother than prior versions, which is a nice bonus given the stiff layup.", image: 'images/Thumb_Item_1.png', largeImage: 'images/Large_Item_1.png', reviews: ['I had a terrible experience with this product.  The holes in this fly swatter are much too large to kill any bugs.', 'This is the oddest shaped football I\'ve ever seen in my life, complete ripoff.'] },
   {id: 2, name: 'Wilson Pro Staff', price: 199.00, description: "Thie is Roger Federer's racket of choice, you can't go wrong with that!", image: 'images/Thumb_Item_2.png', largeImage: 'images/Large_Item_2.png', reviews: [] },
   {id: 3, name: 'Penn Tennis Ball Champ 3pk', price: 2.04, description: "A 3 pack of tennis balls.", image: 'images/Thumb_Item_3.png', largeImage: 'images/Large_Item_3.png', reviews: [] },
   {id: 4, name: 'NikeCourt Premier RF Emoji Head', price: 35.00, description: "Emoji shirt worn by Roger Federer.", image: 'images/Thumb_Item_4.png', largeImage: 'images/Large_Item_4.png', reviews: [] },
@@ -15,7 +15,7 @@ function searchMatch(searchTerm) {
   var suggestions = [];
 
   for(var i = 0; i < products.length; i++) {
-    if(searchTerm.toLowerCase() === products[i].name.toLowerCase()) {
+    if(searchTerm.toLowerCase() == products[i].name.toLowerCase()) {
       suggestions.push(products[i]);
     }
   }
@@ -98,6 +98,7 @@ theProducts.addEventListener('click', function(theEvent) {
     for (var i = 0; i < products.length; i++) {
       if (products[i].id == button.getAttribute('data-id')) {
         addToCart(products[i]);
+        //clear(product)
       }
     }
   }
@@ -130,6 +131,7 @@ function addToCart(product) {
 function productPage(product) {
   var theDisplay = document.createElement('div');
   theDisplay.setAttribute('class', 'panel-body')
+  theDisplay.setAttribute('id', 'productholder')
 
   var titleInfo = document.createElement('div');
   titleInfo.setAttribute('class', 'h3');
@@ -155,6 +157,7 @@ function productPage(product) {
 
   var description = document.createElement('p');
   description.setAttribute('class', 'panel-body');
+  description.setAttribute('id', 'product-description')
   description.textContent = product.description;
 
   theDisplay.appendChild(titleInfo);
@@ -190,7 +193,9 @@ function myCartPage(itemsInCart){
   theButton.setAttribute('id', 'checkout');
   theButton.textContent = "Checkout Now";
 
-  var newTotal = document.createElement('h3');
+  var newTotal = document.createElement('div');
+  newTotal.setAttribute('class', 'panel-footer')
+  newTotal.setAttribute('id', 'cart-footer')
   newTotal.textContent = "Your Grand Total is: " + grandTotal(cart)
 
   cartPage.appendChild(productHeader);
@@ -252,6 +257,7 @@ theReviewLinkArea.addEventListener('click', function(e){
 // Refactored Submit Review--Doesn't need to be wrapped in function/called withing productPage
 var reviewArea = document.getElementsByClassName('show-product')[0];
 var reviewContent = document.getElementById('review-field');
+var reviewerName = document.getElementById('review-user-name');
 
 reviewArea.addEventListener('click', function(e) {
   var reviewIndex = e.target.getAttribute('data-review-id');
@@ -290,6 +296,7 @@ function createIt(theinfo) {
     newReview.setAttribute('id', 'each-review')
     reviewBox.appendChild(newReview);
   }
+  return theSection;
 }
 
 // Removed function from myCartPage--Calculates grand total (called in mycartpage function)
@@ -301,7 +308,108 @@ function grandTotal(item) {
   return total;
 }
 
+// Need values from form, need items names, need grand total.
+// When purchase button is clicked, link is created, when link is clicked, element creation function is called (form values, item names, grandtotal)
+function createHistoryLink(theClick) {
+  var linkNav = document.getElementById('nav');
+  var theLink = document.createElement('div');
+  theLink.textContent = "Order History"
+  theLink.setAttribute('id', 'history-link')
+  linkNav.appendChild(theLink)
+}
 
+var checkoutName = document.getElementById('name');
+var checkoutEmail = document.getElementById('email');
+var checkoutAddress = document.getElementById('address');
+var userDetails = []
+
+var checkoutButton = document.getElementById('checkoutbutton');
+checkoutButton.addEventListener('click', function(e) {
+  //console.log(checkoutName.value)
+  createHistoryLink(e);
+  userDetails.push(checkoutName.value, checkoutEmail.value, checkoutAddress.value)
+})
+
+
+var theHistoryLink = document.getElementById('nav');
+theHistoryLink.addEventListener('click', function(e){
+  //clear(document.getElementById('products'));
+  theLink = e.target;
+  if(theLink.id == "history-link") {
+    var clearIt = document.getElementsByClassName('second')[0];
+    clearIt.classList.remove("second");
+    clearIt.classList.add("hide-form");
+  }
+  if(theLink.id == "history-link") {
+    var clearAll = document.getElementsByClassName('container')[0];
+    clear(clearAll)
+    createOrderHistory(userDetails, cart)
+  }
+})
+
+
+
+
+
+function createOrderHistory(formValues, totals) {
+  var historyContainer = document.createElement('div');
+  historyContainer.setAttribute('class', 'panel panel-default');
+
+  var nameContainer = document.createElement('div');
+  nameContainer.setAttribute('class', 'panel panel-default');
+
+
+
+  for(var i = 0; i < formValues.length; i++) {
+    //console.log(formValues[i]);
+  }
+
+  var title = document.createElement('div');
+  title.textContent = "Past Orders";
+  title.setAttribute('class', 'h3')
+
+  var userInfo = document.createElement('div');
+  userInfo.textContent = formValues.join("  ");
+  //document.body.appendChild(title);
+
+  //var orderInfo = document.createElement('div');
+  //orderInfo.textContent = totals
+  historyContainer.appendChild(title);
+
+  for(var i = 0; i < totals.length; i++) {
+    var itemName = document.createElement('div');
+    itemName.textContent = totals[i].name;
+    itemName.setAttribute('class', 'panel-body');
+
+    var itemPrice = document.createElement('div');
+    itemPrice.textContent = totals[i].price;
+    itemPrice.setAttribute('id', 'item-price');
+
+    var itemDescription = document.createElement('div');
+    itemDescription.textContent = totals[i].description;
+    itemDescription.setAttribute('id', 'item-description');
+
+    nameContainer.appendChild(itemName)
+
+    //historyContainer.appendChild(itemName);
+    historyContainer.appendChild(nameContainer);
+    historyContainer.appendChild(itemDescription);
+    console.log(totals[i].price, totals[i].name, totals[i].description)
+  }
+
+
+  historyContainer.appendChild(userInfo);
+  //historyContainer.appendChild(orderInfo);
+
+  document.body.appendChild(historyContainer);
+
+  //console.log(totals)
+}
+
+
+
+// Create 'Past Orders' title
+// Creat item name field, create description field, creat price field, creat shipping field
 
 /** Search TODO:
 Add partial matches functionality

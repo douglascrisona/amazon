@@ -1,15 +1,23 @@
 #nav {
-  height: 100px;
+  height: 120px;
   background-color: rgb(34,46,62);
+  border: none;
+  border-radius: none;
+}
+
+#the-header {
+  margin-left: 25%;
 }
 
 #search {
   margin-top: 40px;
+
   /** margin-left: 150px; **/
 }
 
 #logo {
-  margin-right: 10px;
+  margin-bottom: -30px;
+  margin-left: 20%;
 }
 
 .btn {
@@ -21,8 +29,8 @@
 }
 
 #littlecart {
-  margin-top: 30px;
-  margin-right: 20px;
+  margin-top: 55px;
+  margin-right: 50px;
   float: right;
 }
 
@@ -61,4 +69,59 @@
 
 #review-link:hover {
   color: gray;
+}
+
+.hide-review {
+  display: none;
+}
+
+#reviewer-form {
+  margin-top: 30px;
+  width: 300px;
+}
+
+#review-button {
+  margin-top: 20px;
+  margin-left: -2px;
+}
+
+#hide-link {
+  display: none;
+}
+
+#review-title {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#each-review {
+  margin-bottom: 10px;
+  border-top: .5px solid rgb(224, 224, 224);
+  color: gray;
+}
+
+#review-panel {
+  margin-top: 20px;
+}
+
+#history-link {
+  margin-top: 90px;
+  float: right;
+  color: white;
+  font-weight: bold;
+}
+#history-link:hover {
+  color: gray;
+}
+
+#cart-footer {
+  height: 50px;
+}
+
+#checkout {
+  margin-top: 10px;
+  margin-right: 15px;
+}
+#product-description {
+  width: 500px;
 }
